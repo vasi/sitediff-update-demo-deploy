@@ -1,0 +1,7 @@
+#!/bin/bash
+pid_file=/var/run/mysqld/mysqld.pid
+log() { echo -e "\033[0;33m$1\033[00m" >&2; }
+log "stopping mysql ..."
+[[ -e $pid_file ]] && cat $pid_file | xargs kill
+while [[ -e $pid_file  ]]; do sleep 0.5; done
+log "mysql stopped"

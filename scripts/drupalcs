@@ -1,0 +1,32 @@
+#!/bin/bash
+declare -r EXTENSIONS="php,module,inc,install,theme,css,js"
+declare -r STANDARDS=(Drupal DrupalPractice DrupalSecure)
+declare -r HEADER='--------------[Running PHP CS with standard %s]------------\n'
+
+usage(){
+  cat - <<EOF
+
+Usage: drupalcs [PATH]
+
+  Runs PHP Code sniffer with Drupal, DrupalPractice, and DrupalSecure standards
+
+Arguments:
+  PATH                file or directory that will be examined by PHP CS
+EOF
+}
+
+main(){
+  set -eu
+
+  [[ $# -ne 1 ]] && usage && exit 1
+  [[ $1 == '-h' || $1 == '--help' ]] && usage && exit 0
+  declare target="$1"
+  declare stat=0
+  for standard in ${STANDARDS[@]}; do
+    printf -- "$HEADER" $standard
+    phpcs --ignore='min.js' --ignore='min.css' --standard=$standard --extensions=$EXTENSIONS "$target" || stat=1
+  done
+  return $stat
+}
+
+main "$@"
