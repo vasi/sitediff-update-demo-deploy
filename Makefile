@@ -4,6 +4,8 @@ assets/code:
 	mkdir $@
 	wget http://ftp.drupal.org/files/projects/drupal-7.34.tar.gz
 	tar -C $@ -xvf drupal-7.34.tar.gz --strip-components 1
+	cp $@/sites/default/{default.,}settings.php
+	echo "require_once 'settings.local.php';" >> $@/sites/default/settings.php
 	# git clone git@gitlab.***REMOVED***.ca:foo/bar.git $@
 
 assets/drupal.sql:
