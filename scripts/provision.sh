@@ -13,3 +13,7 @@ drush vset theme_default bartik
 drush vset admin_theme bartik
 drush dis -y toolbar overlay
 drush en -y admin_menu devel
+
+# install our modules
+drush dl -y entity workflow rules diff views
+drush en -y entity workflow workflow_admin_ui rules rules_admin diff views
