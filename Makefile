@@ -1,5 +1,10 @@
+# When initializing a project replace the following recipe with git clone
+# Note hardcoded drupal core version
 assets/code:
-	git clone git@gitlab.***REMOVED***.ca:amir/allseen-cawt.git $@
+	mkdir $@
+	wget http://ftp.drupal.org/files/projects/drupal-7.34.tar.gz
+	tar -C $@ -xvf drupal-7.34.tar.gz --strip-components 1
+	# git clone git@gitlab.***REMOVED***.ca:foo/bar.git $@
 
 assets/drupal.sql:
 	touch $@
