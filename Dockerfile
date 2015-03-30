@@ -76,7 +76,7 @@ RUN getent passwd $(cat /tmp/uid) || usermod -u $(cat /tmp/uid) docker
 RUN rm /tmp/uid /tmp/gid
 RUN echo '%sudo ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/override
 RUN chmod 0440 /etc/sudoers.d/override
-RUN echo 'cd /drupal' >> /home/docker/.bashrc
+RUN echo 'cd /drupal/site' >> /home/docker/.bashrc
 
 # Set pubkey for SSH
 RUN install -d -m 0700 /root/.ssh
