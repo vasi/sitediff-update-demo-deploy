@@ -17,6 +17,7 @@ assets/code: assets/drupal.tar.gz
 	cp $@/sites/default/default.settings.php $@/sites/default/settings.php
 	echo "require_once 'settings.local.php';" >> $@/sites/default/settings.php
 	cp files/gitignore $@/.gitignore
+	find $@ -type f -perm +0100 -exec chmod a-x {} +
 	git -C $@ init
 	git -C $@ add .
 	git -C $@ commit -m 'Initial commit'
