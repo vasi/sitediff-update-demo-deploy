@@ -1,13 +1,27 @@
-# When initializing a project replace the following recipe with git clone
-# Note hardcoded drupal core version
+BRANCH = master
+REPO = evolvingweb/allseen-cawt
+
+ifneq ($(REPO),)
+
+REMOTE = git@gitlab.***REMOVED***.ca:$(REPO).git
+
 assets/code:
+	git clone -b $(BRANCH) $(REMOTE) $@
+
+else
+
+assets/code: assets/drupal.tar.gz
 	mkdir $@
-	curl -s http://updates.drupal.org/release-history/drupal/7.x | perl -ne 'if (m,http://\S+\.tar\.gz,) { print "$$&\n"; exit }' > /tmp/current_drupal_core
-	wget "$$(cat /tmp/current_drupal_core)" -O assets/drupal.tar.gz
-	tar -C $@ -xf assets/drupal.tar.gz --strip-components 1
+	tar -C $@ -xf $< --strip-components 1
 	cp $@/sites/default/default.settings.php $@/sites/default/settings.php
 	echo "require_once 'settings.local.php';" >> $@/sites/default/settings.php
-	# git clone git@gitlab.***REMOVED***.ca:foo/bar.git $@
+
+endif
+
+# Download the most recent drupal
+assets/drupal.tar.gz:
+	url=$$(curl -s http://updates.drupal.org/release-history/drupal/7.x | perl -ne 'if (m,http://\S+\.tar\.gz,) { print "$$&\n"; exit }'); \
+	wget $$url -O $@
 
 assets/drupal.sql:
 	touch $@
