@@ -151,7 +151,8 @@ RUN cp -R /tmp/files /tmp/code/sites/default/ && \
   chown -R docker:www-data /tmp/code/sites/default/files && \
   chmod -R ug+w /tmp/code/sites/default/files && \
   find /tmp/code/sites/default/files -type d -print0 | xargs -0 chmod g+s && \
-  cp -a /tmp/code /drupal && \
+  mkdir /drupal && \
+  cp -a /tmp/code /drupal/site && \
   rm -rf /tmp/code /tmp/files
 
 # Setup Drupal cron

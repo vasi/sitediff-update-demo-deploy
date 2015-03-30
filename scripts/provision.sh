@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 
-cd /drupal
+cd /drupal/site
 
 drush site-install -v -y --account-name=admin --account-pass=$(cat /tmp/drupal_admin_pass) --site-name=$(cat /tmp/site_name)
 

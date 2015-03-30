@@ -1,7 +1,7 @@
 <VirtualHost *:80>
   ServerName default
   ServerAlias default
-  DocumentRoot /drupal
+  DocumentRoot /drupal/site
   RewriteEngine On
 
   <Directory /drupal/site>
