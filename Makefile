@@ -1,5 +1,6 @@
+NAME = allseen-cawt
 BRANCH = master
-REPO = evolvingweb/allseen-cawt
+REPO = evolvingweb/$(NAME)
 
 ifneq ($(REPO),)
 
@@ -51,10 +52,13 @@ assets/gid:
 assets/docker_host_ip:
 	hostname -I | awk '{print $$1}' > $@
 
+assets/site_name:
+	echo $(NAME) > $@
+
 assets_dir:
 	mkdir -p assets
 
-assets: assets_dir assets/code assets/files assets/settings.local.php assets/mysql_root_pass assets/mysql_drupal_pass assets/composer.phar assets/authorized_keys assets/uid assets/gid assets/docker_host_ip assets/drupal_admin_pass assets/drupal.sql
+assets: assets_dir assets/code assets/files assets/settings.local.php assets/mysql_root_pass assets/mysql_drupal_pass assets/composer.phar assets/authorized_keys assets/uid assets/gid assets/docker_host_ip assets/drupal_admin_pass assets/drupal.sql assets/site_name
 
 PULL_DIR = .
 pull_real:
@@ -69,8 +73,8 @@ pull_real:
 	fi
 pull: pull_real
 
-IMAGE = evolvingweb/allseen-cawt
-CONTAINER = allseen-cawt
+IMAGE = evolvingweb/$(NAME)
+CONTAINER = $(NAME)
 DOCKER_HOSTNAME = docker
 SSH_PORT = 9103
 HTTP_PORT = 9180

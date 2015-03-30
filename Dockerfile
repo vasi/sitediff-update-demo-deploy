@@ -159,6 +159,7 @@ RUN echo "0 *  *    *  *  /usr/bin/env COLUMNS=72 /usr/local/bin/drush --root=/d
 
 # Setup drupal
 ADD assets/drupal_admin_pass /tmp/drupal_admin_pass
+ADD assets/site_name /tmp/site_name
 ADD scripts/provision.sh /var/build/scripts/provision.sh
 
 # XXX: "drush status" must first be run as root to download Console_Table
