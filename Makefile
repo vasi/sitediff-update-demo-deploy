@@ -139,4 +139,4 @@ backup:
 
 # Always sync files/DB
 .PHONY: run run_mounted build build_no_cache devel stop ssh obliterate clean assets \
-	assets/files assets/drupal.sql backup
+	assets/files backup
