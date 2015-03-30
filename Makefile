@@ -3,8 +3,8 @@
 assets/code:
 	mkdir $@
 	curl -s http://updates.drupal.org/release-history/drupal/7.x | perl -ne 'if (m,http://\S+\.tar\.gz,) { print "$$&\n"; exit }' > /tmp/current_drupal_core
-	wget "$$(cat /tmp/current_drupal_core)" -O drupal.tar.gz
-	tar -C $@ -xf drupal.tar.gz --strip-components 1
+	wget "$$(cat /tmp/current_drupal_core)" -O assets/drupal.tar.gz
+	tar -C $@ -xf assets/drupal.tar.gz --strip-components 1
 	cp $@/sites/default/default.settings.php $@/sites/default/settings.php
 	echo "require_once 'settings.local.php';" >> $@/sites/default/settings.php
 	# git clone git@gitlab.***REMOVED***.ca:foo/bar.git $@
