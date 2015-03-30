@@ -16,6 +16,10 @@ assets/code: assets/drupal.tar.gz
 	tar -C $@ -xf $< --strip-components 1
 	cp $@/sites/default/default.settings.php $@/sites/default/settings.php
 	echo "require_once 'settings.local.php';" >> $@/sites/default/settings.php
+	cp files/gitignore $@/.gitignore
+	git -C $@ init
+	git -C $@ add .
+	git -C $@ commit -m 'Initial commit'
 
 endif
 
