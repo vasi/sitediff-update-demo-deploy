@@ -152,6 +152,7 @@ RUN cp -R /tmp/files /tmp/code/sites/default/ && \
   chmod -R ug+w /tmp/code/sites/default/files && \
   find /tmp/code/sites/default/files -type d -print0 | xargs -0 chmod g+s && \
   mkdir /drupal && \
+  chown docker /drupal && \
   cp -a /tmp/code /drupal/site && \
   rm -rf /tmp/code /tmp/files
 

@@ -14,6 +14,9 @@ drush vset admin_theme bartik
 drush dis -y toolbar overlay
 drush en -y admin_menu devel
 
+# Save the old DB
+drush sql-dump > /drupal/orig.sql
+
 # Run an update script
 UPDATE_SCRIPT="/drupal/site/scripts/update-container.sh"
 if [ -f "$UPDATE_SCRIPT" ]; then
