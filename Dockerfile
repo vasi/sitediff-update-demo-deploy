@@ -76,7 +76,7 @@ RUN getent passwd $(cat /tmp/uid) || usermod -u $(cat /tmp/uid) docker
 RUN rm /tmp/uid /tmp/gid
 RUN echo '%sudo ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/override
 RUN chmod 0440 /etc/sudoers.d/override
-RUN echo 'cd /drupal' >> /home/docker/.bashrc
+RUN echo 'cd /drupal/site' >> /home/docker/.bashrc
 
 # Set pubkey for SSH
 RUN install -d -m 0700 /root/.ssh
@@ -151,11 +151,11 @@ RUN cp -R /tmp/files /tmp/code/sites/default/ && \
   chown -R docker:www-data /tmp/code/sites/default/files && \
   chmod -R ug+w /tmp/code/sites/default/files && \
   find /tmp/code/sites/default/files -type d -print0 | xargs -0 chmod g+s && \
-  cp -a /tmp/code /drupal && \
+  mkdir -p /drupal && cp -a /tmp/code /drupal/site && \
   rm -rf /tmp/code /tmp/files
 
 # Setup Drupal cron
-RUN echo "0 *  *    *  *  /usr/bin/env COLUMNS=72 /usr/local/bin/drush --root=/drupal --uri=http://default --quiet cron" | crontab -u www-data -
+RUN echo "0 *  *    *  *  /usr/bin/env COLUMNS=72 /usr/local/bin/drush --root=/drupal/site --uri=http://default --quiet cron" | crontab -u www-data -
 
 # Setup drupal
 ADD assets/drupal_admin_pass /tmp/drupal_admin_pass
@@ -163,7 +163,7 @@ ADD scripts/provision.sh /var/build/scripts/provision.sh
 
 # XXX: "drush status" must first be run as root to download Console_Table
 RUN supervisord -c /etc/supervisord.conf && mysql_wait \
-    # && drush -r /drupal status \
+    # && drush -r /drupal/site status \
     && su docker -c "bash /var/build/scripts/provision.sh" \
     && supervisorctl stop mysql
 RUN rm /tmp/drupal_admin_pass

@@ -1,10 +1,10 @@
 # When initializing a project replace the following recipe with git clone
 # Note hardcoded drupal core version
 assets/code:
-	mkdir $@
+	mkdir $@/site
 	curl -s http://updates.drupal.org/release-history/drupal/7.x | perl -ne 'if (m,http://\S+\.tar\.gz,) { print "$$&\n"; exit }' > /tmp/current_drupal_core
 	wget "$$(cat /tmp/current_drupal_core)" -O drupal.tar.gz
-	tar -C $@ -xvf drupal.tar.gz --strip-components 1
+	tar -C $@/site -xf drupal.tar.gz --strip-components 1
 	cp $@/sites/default/default.settings.php $@/sites/default/settings.php
 	echo "require_once 'settings.local.php';" >> $@/sites/default/settings.php
 	# git clone git@gitlab.***REMOVED***.ca:foo/bar.git $@
@@ -107,13 +107,13 @@ drush_uli:
 
 DRUSH_CMD =
 drush:
-	make ssh SSH_CMD="'cd /drupal; drush $(DRUSH_CMD)'"
+	make ssh SSH_CMD="'cd /drupal/site; drush $(DRUSH_CMD)'"
 
 BACKUP_DIR =
 backup:
 	mkdir -p '$(BACKUP_DIR)'
 	docker exec $(CONTAINER) mysqldump -u drupal -p"$$(cat assets/mysql_drupal_pass)" drupal > '$(BACKUP_DIR)/dump.sql'
-	docker exec $(CONTAINER) tar -C /drupal/sites/default -cf - files > '$(BACKUP_DIR)/files.tar'
+	docker exec $(CONTAINER) tar -C /drupal/site/sites/default -cf - files > '$(BACKUP_DIR)/files.tar'
 
 # Always sync files/DB
 .PHONY: run run_mounted build build_no_cache devel stop ssh obliterate clean assets \
