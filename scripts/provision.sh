@@ -13,3 +13,9 @@ drush vset theme_default bartik
 drush vset admin_theme bartik
 drush dis -y toolbar overlay
 drush en -y admin_menu devel
+
+# Run an update script
+UPDATE_SCRIPT="/drupal/site/scripts/update-container.sh"
+if [ -f "$UPDATE_SCRIPT" ]; then
+  bash $UPDATE_SCRIPT
+fi
