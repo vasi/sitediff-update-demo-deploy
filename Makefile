@@ -1,13 +1,33 @@
-# When initializing a project replace the following recipe with git clone
-# Note hardcoded drupal core version
+NAME = allseen-cawt
+BRANCH = master
+REPO = evolvingweb/$(NAME)
+
+ifneq ($(REPO),)
+
+REMOTE = git@gitlab.***REMOVED***.ca:$(REPO).git
+
 assets/code:
-	mkdir $@/site
-	curl -s http://updates.drupal.org/release-history/drupal/7.x | perl -ne 'if (m,http://\S+\.tar\.gz,) { print "$$&\n"; exit }' > /tmp/current_drupal_core
-	wget "$$(cat /tmp/current_drupal_core)" -O drupal.tar.gz
-	tar -C $@/site -xf drupal.tar.gz --strip-components 1
+	git clone -b $(BRANCH) $(REMOTE) $@
+
+else
+
+assets/code: assets/drupal.tar.gz
+	mkdir $@
+	tar -C $@ -xf $< --strip-components 1
 	cp $@/sites/default/default.settings.php $@/sites/default/settings.php
 	echo "require_once 'settings.local.php';" >> $@/sites/default/settings.php
-	# git clone git@gitlab.***REMOVED***.ca:foo/bar.git $@
+	cp files/gitignore $@/.gitignore
+	find $@ -type f -perm +0100 -exec chmod a-x {} +
+	git -C $@ init
+	git -C $@ add .
+	git -C $@ commit -m 'Initial commit'
+
+endif
+
+# Download the most recent drupal
+assets/drupal.tar.gz:
+	url=$$(curl -s http://updates.drupal.org/release-history/drupal/7.x | perl -ne 'if (m,http://\S+\.tar\.gz,) { print "$$&\n"; exit }'); \
+	wget $$url -O $@
 
 assets/drupal.sql:
 	touch $@
@@ -37,10 +57,13 @@ assets/gid:
 assets/docker_host_ip:
 	hostname -I | awk '{print $$1}' > $@
 
+assets/site_name:
+	echo $(NAME) > $@
+
 assets_dir:
 	mkdir -p assets
 
-assets: assets_dir assets/code assets/files assets/settings.local.php assets/mysql_root_pass assets/mysql_drupal_pass assets/composer.phar assets/authorized_keys assets/uid assets/gid assets/docker_host_ip assets/drupal_admin_pass assets/drupal.sql
+assets: assets_dir assets/code assets/files assets/settings.local.php assets/mysql_root_pass assets/mysql_drupal_pass assets/composer.phar assets/authorized_keys assets/uid assets/gid assets/docker_host_ip assets/drupal_admin_pass assets/drupal.sql assets/site_name
 
 PULL_DIR = .
 pull_real:
@@ -55,8 +78,8 @@ pull_real:
 	fi
 pull: pull_real
 
-IMAGE = evolvingweb/allseen-cawt
-CONTAINER = allseen-cawt
+IMAGE = evolvingweb/$(NAME)
+CONTAINER = $(NAME)
 DOCKER_HOSTNAME = docker
 SSH_PORT = 9103
 HTTP_PORT = 9180
@@ -117,4 +140,4 @@ backup:
 
 # Always sync files/DB
 .PHONY: run run_mounted build build_no_cache devel stop ssh obliterate clean assets \
-	assets/files assets/drupal.sql backup
+	assets/files backup

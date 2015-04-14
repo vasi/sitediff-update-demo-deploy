@@ -151,7 +151,8 @@ RUN cp -R /tmp/files /tmp/code/sites/default/ && \
   chown -R docker:www-data /tmp/code/sites/default/files && \
   chmod -R ug+w /tmp/code/sites/default/files && \
   find /tmp/code/sites/default/files -type d -print0 | xargs -0 chmod g+s && \
-  mkdir -p /drupal && cp -a /tmp/code /drupal/site && \
+  mkdir /drupal && \
+  cp -a /tmp/code /drupal/site && \
   rm -rf /tmp/code /tmp/files
 
 # Setup Drupal cron
@@ -159,6 +160,7 @@ RUN echo "0 *  *    *  *  /usr/bin/env COLUMNS=72 /usr/local/bin/drush --root=/d
 
 # Setup drupal
 ADD assets/drupal_admin_pass /tmp/drupal_admin_pass
+ADD assets/site_name /tmp/site_name
 ADD scripts/provision.sh /var/build/scripts/provision.sh
 
 # XXX: "drush status" must first be run as root to download Console_Table
