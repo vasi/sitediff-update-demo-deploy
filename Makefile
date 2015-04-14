@@ -1,4 +1,4 @@
-NAME = allseen-cawt
+NAME = drupal7
 BRANCH = master
 REPO = evolvingweb/$(NAME)
 
