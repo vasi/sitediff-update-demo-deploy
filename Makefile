@@ -138,6 +138,11 @@ backup:
 	docker exec $(CONTAINER) mysqldump -u drupal -p"$$(cat assets/mysql_drupal_pass)" drupal > '$(BACKUP_DIR)/dump.sql'
 	docker exec $(CONTAINER) tar -C /drupal/site/sites/default -cf - files > '$(BACKUP_DIR)/files.tar'
 
+
+update_drupal:
+	$(MAKE) drush DRUSH_CMD="up -y drupal"
+
+
 # Always sync files/DB
 .PHONY: run run_mounted build build_no_cache devel stop ssh obliterate clean assets \
 	assets/files backup
