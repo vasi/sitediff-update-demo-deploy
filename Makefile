@@ -149,7 +149,7 @@ UPDATE_MAKE = $(MAKE) CONTAINER=$(UPDATE_CONTAINER) SSH_PORT=$(UPDATE_SSH_PORT) 
 
 update_run:
 	$(UPDATE_MAKE) run
-	sleep 2
+	sleep 3
 	$(UPDATE_MAKE) update_drupal
 update_rm:
 	$(UPDATE_MAKE) rm
