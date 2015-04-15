@@ -1,4 +1,4 @@
-NAME = drupal7
+NAME = sitediff-update-demo
 BRANCH = master
 REPO = evolvingweb/$(NAME)
 
