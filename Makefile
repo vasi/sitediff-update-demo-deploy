@@ -142,6 +142,18 @@ backup:
 update_drupal:
 	$(MAKE) drush DRUSH_CMD="up -y drupal"
 
+UPDATE_CONTAINER = $(CONTAINER)_update
+UPDATE_SSH_PORT = 9104
+UPDATE_HTTP_PORT = 9181
+UPDATE_MAKE = $(MAKE) CONTAINER=$(UPDATE_CONTAINER) SSH_PORT=$(UPDATE_SSH_PORT) HTTP_PORT=$(UPDATE_HTTP_PORT)
+
+update_run:
+	$(UPDATE_MAKE) run
+	sleep 2
+	$(UPDATE_MAKE) update_drupal
+update_rm:
+	$(UPDATE_MAKE) rm
+
 
 # Always sync files/DB
 .PHONY: run run_mounted build build_no_cache devel stop ssh obliterate clean assets \
