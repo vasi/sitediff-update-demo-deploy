@@ -77,6 +77,7 @@ pull_real:
 		git stash pop; \
 	fi
 pull: pull_real
+	$(MAKE) pull_real PULL_DIR=assets/code
 
 IMAGE = evolvingweb/$(NAME)
 CONTAINER = $(NAME)
