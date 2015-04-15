@@ -18,7 +18,7 @@ drush en -y admin_menu devel
 drush sql-dump > /drupal/orig.sql
 
 # Run an update script
-UPDATE_SCRIPT="/drupal/site/scripts/update-container.sh"
+UPDATE_SCRIPT="/drupal/site/sites/all/scripts/update-container.sh"
 if [ -f "$UPDATE_SCRIPT" ]; then
   bash $UPDATE_SCRIPT
 fi
