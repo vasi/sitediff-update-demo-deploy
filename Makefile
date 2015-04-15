@@ -155,6 +155,13 @@ update_run:
 update_rm:
 	$(UPDATE_MAKE) rm
 
+sitediff:
+	sitediff diff \
+		--before=http://localhost:$(HTTP_PORT) \
+		--after=http://localhost:$(UPDATE_HTTP_PORT) \
+		--before-report=http://$(DOCKER_HOSTNAME):$(HTTP_PORT) \
+		--after-report=http://$(DOCKER_HOSTNAME):$(HTTP_PORT) \
+		sitediff.yaml
 
 # Always sync files/DB
 .PHONY: run run_mounted build build_no_cache devel stop ssh obliterate clean assets \
