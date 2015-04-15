@@ -167,7 +167,7 @@ sitediff:
 		--before-report=http://$(DOCKER_HOSTNAME):$(HTTP_PORT) \
 		--after-report=http://$(DOCKER_HOSTNAME):$(HTTP_PORT) \
 		sitediff.yaml
-sitediff_server:
+sitediff_serve:
 	sitediff serve
 
 # Always sync files/DB
