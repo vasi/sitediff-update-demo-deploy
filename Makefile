@@ -2,6 +2,11 @@ NAME = sitediff-update-demo
 BRANCH = master
 REPO = evolvingweb/$(NAME)
 
+all: build run update_run sitediff sitediff_serve
+
+all_rm: rm update_rm
+
+
 ifneq ($(REPO),)
 
 REMOTE = git@gitlab.***REMOVED***.ca:$(REPO).git
@@ -162,6 +167,8 @@ sitediff:
 		--before-report=http://$(DOCKER_HOSTNAME):$(HTTP_PORT) \
 		--after-report=http://$(DOCKER_HOSTNAME):$(HTTP_PORT) \
 		sitediff.yaml
+sitediff_server:
+	sitediff serve
 
 # Always sync files/DB
 .PHONY: run run_mounted build build_no_cache devel stop ssh obliterate clean assets \
