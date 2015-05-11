@@ -1,6 +1,6 @@
 NAME = sitediff-update-demo
 BRANCH = master
-REPO = evolvingweb/$(NAME)
+REPO = vasi/$(NAME)
 
 all: build run update_run
 
@@ -9,7 +9,7 @@ all_rm: rm update_rm
 
 ifneq ($(REPO),)
 
-REMOTE = git@gitlab.***REMOVED***.ca:$(REPO).git
+REMOTE = git@github.com:$(REPO).git
 
 assets/code:
 	git clone -b $(BRANCH) $(REMOTE) $@
