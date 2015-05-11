@@ -2,7 +2,7 @@ NAME = sitediff-update-demo
 BRANCH = master
 REPO = evolvingweb/$(NAME)
 
-all: build run update_run sitediff sitediff_serve
+all: build run update_run
 
 all_rm: rm update_rm
 
@@ -159,16 +159,6 @@ update_run:
 	$(UPDATE_MAKE) update_drupal
 update_rm:
 	$(UPDATE_MAKE) rm
-
-sitediff:
-	sitediff diff \
-		--before=http://localhost:$(HTTP_PORT) \
-		--after=http://localhost:$(UPDATE_HTTP_PORT) \
-		--before-report=http://$(DOCKER_HOSTNAME):$(HTTP_PORT) \
-		--after-report=http://$(DOCKER_HOSTNAME):$(HTTP_PORT) \
-		sitediff.yaml
-sitediff_serve:
-	sitediff serve
 
 # Always sync files/DB
 .PHONY: run run_mounted build build_no_cache devel stop ssh obliterate clean assets \
