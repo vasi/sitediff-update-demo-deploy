@@ -46,7 +46,7 @@ ENV COMPOSER_HOME /opt
 # Composer server is slow, cache composer.phar
 ADD assets/composer.phar /usr/local/bin/composer
 RUN chmod +x /usr/local/bin/composer
-RUN composer global require drush/drush:dev-master
+RUN composer global require drush/drush:7.x
 RUN ln -sf $COMPOSER_HOME/vendor/drush/drush/drush /usr/local/bin/drush
 
 # Install PHP Code sniffer and Drupal{,Practice,Secure} standards
